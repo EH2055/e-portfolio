@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // =========================================
     // 1. Navigation Auto-Highlighting
-    // =========================================
     document.querySelectorAll('nav a').forEach(link => {
         if (window.location.href.endsWith(link.getAttribute('href')) || 
            (link.getAttribute('href') === 'index.html' && (window.location.pathname === '/' || window.location.href.endsWith('/')))) {
@@ -11,11 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // =========================================
     // 2. iOS Theme Toggle
-    // =========================================
     const themeToggle = document.getElementById('theme-toggle');
-    
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-theme');
         themeToggle.textContent = '☀️';
@@ -23,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
-        
         if (document.body.classList.contains('dark-theme')) {
             localStorage.setItem('theme', 'dark');
             themeToggle.textContent = '☀️';
@@ -33,11 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // =========================================
-    // 3. Smooth iOS Click Feedback
-    // =========================================
+    // 3. Apple Style UI Tap Interaction
     const interactiveElements = document.querySelectorAll('nav a, .ios-icon-button');
-
     interactiveElements.forEach(element => {
         element.style.position = 'relative';
         element.style.overflow = 'hidden';
@@ -57,10 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (oldRipple) oldRipple.remove();
             
             this.appendChild(ripple);
-
-            ripple.addEventListener('animationend', () => {
-                ripple.remove();
-            });
+            ripple.addEventListener('animationend', () => ripple.remove());
         });
     });
 });
