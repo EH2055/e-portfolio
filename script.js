@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // =========================================
-    // 1. Existing Navigation Auto-Highlighting
+    // 1. Navigation Auto-Highlighting
     // =========================================
     document.querySelectorAll('nav a').forEach(link => {
         if (window.location.href.endsWith(link.getAttribute('href')) || 
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================
     const themeToggle = document.getElementById('theme-toggle');
     
-    // Check if user previously preferred dark mode
+    // Check local storage memory for theme preference
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-theme');
         themeToggle.textContent = '☀️';
@@ -27,20 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (document.body.classList.contains('dark-theme')) {
             localStorage.setItem('theme', 'dark');
-            themeToggle.textContent = '☀️'; // Switch icon to sun
+            themeToggle.textContent = '☀️';
         } else {
             localStorage.setItem('theme', 'light');
-            themeToggle.textContent = '🌙'; // Switch icon to moon
+            themeToggle.textContent = '🌙';
         }
     });
 
     // =========================================
-    // 3. M3 Scroll-Driven Top App Bar
+    // 3. M3 Scroll-Driven Top App Bar Elevation
     // =========================================
     const navBar = document.querySelector('nav');
     
     window.addEventListener('scroll', () => {
-        // If scrolled down more than 10 pixels, elevate the navbar
         if (window.scrollY > 10) {
             navBar.classList.add('scrolled');
         } else {
@@ -51,11 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================
     // 4. M3 Interactive Ink Ripple Effect
     // =========================================
-    // Targets navigation links and our custom theme button
-    const rippleElements = document.querySelectorAll('nav a, .m3-icon-button, .article-card');
+    const rippleElements = document.querySelectorAll('nav a, .m3-icon-button');
 
     rippleElements.forEach(element => {
-        // Ensure element can cleanly container absolute positioned ripples
         element.style.position = 'relative';
         element.style.overflow = 'hidden';
 
@@ -63,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const ripple = document.createElement('span');
             ripple.classList.add('m3-ripple');
             
-            // Calculate exact click coordinates relative to the button boundaries
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
             
@@ -71,13 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
             ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
             ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
             
-            // Remove old ripples if they exist, then append new one
             const oldRipple = this.querySelector('.m3-ripple');
             if (oldRipple) oldRipple.remove();
             
             this.appendChild(ripple);
 
-            // Clean up DOM after animation ends
             ripple.addEventListener('animationend', () => {
                 ripple.remove();
             });

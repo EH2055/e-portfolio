@@ -4,24 +4,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;700&display=swap');
 
 :root {
-    /* Dark Theme Color Overrides */
-body.dark-theme {
-    --md-sys-color-surface: #141218;
-    --md-sys-color-on-surface: #E6E1E5;
-    --md-sys-color-on-surface-variant: #CAC4D0;
-    --md-sys-color-surface-container: #211F26;
-    --md-sys-color-surface-container-high: #2B2930;
-    --md-sys-color-surface-container-highest: #36343B;
-    
-    --md-sys-color-primary: #D0BCFF;
-    --md-sys-color-secondary-container: #4A4458;
-    --md-sys-color-on-secondary-container: #E8DEF8;
-}
-
-/* Smooth background transition when changing themes */
-body {
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
     --md-sys-color-surface: #FEF7FF;
     --md-sys-color-on-surface: #1D1B20;
     --md-sys-color-on-surface-variant: #49454F;
@@ -37,8 +19,22 @@ body {
     --md-sys-shape-corner-full: 100px;
 }
 
+/* Dark Theme Color Overrides */
+body.dark-theme {
+    --md-sys-color-surface: #141218;
+    --md-sys-color-on-surface: #E6E1E5;
+    --md-sys-color-on-surface-variant: #CAC4D0;
+    --md-sys-color-surface-container: #211F26;
+    --md-sys-color-surface-container-high: #2B2930;
+    --md-sys-color-surface-container-highest: #36343B;
+    
+    --md-sys-color-primary: #D0BCFF;
+    --md-sys-color-secondary-container: #4A4458;
+    --md-sys-color-on-secondary-container: #E8DEF8;
+}
+
 /* =========================================
-   Base Resets
+   Base Resets & Transitions
    ========================================= */
 * {
     margin: 0;
@@ -51,14 +47,24 @@ body {
     line-height: 1.6;
     color: var(--md-sys-color-on-surface);
     background-color: var(--md-sys-color-surface);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* =========================================
-   Navigation (Split Layout)
+   Navigation (Sticky & Scroll-Driven)
    ========================================= */
 nav {
     background-color: var(--md-sys-color-surface-container);
     padding: 0.75rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+nav.scrolled {
+    background-color: var(--md-sys-color-surface-container-high);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 nav ul {
@@ -70,7 +76,6 @@ nav ul {
     gap: 0.5rem;
 }
 
-/* Pushes Home to the left, everything else right */
 nav ul li.nav-home {
     margin-right: auto;
 }
@@ -83,6 +88,7 @@ nav a {
     padding: 0.6rem 1.2rem;
     border-radius: var(--md-sys-shape-corner-full);
     transition: background-color 0.2s ease, color 0.2s ease;
+    display: inline-block;
 }
 
 nav a:hover, 
@@ -92,10 +98,47 @@ nav a:focus {
     outline: none;
 }
 
-/* Targetted by JavaScript auto-highlighting */
 nav a.active {
     background-color: var(--md-sys-color-secondary-container);
     color: var(--md-sys-color-on-secondary-container);
+}
+
+/* M3 Icon Button for Theme Toggle */
+.m3-icon-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    padding: 0.6rem;
+    cursor: pointer;
+    border-radius: var(--md-sys-shape-corner-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.m3-icon-button:hover {
+    background-color: var(--md-sys-color-surface-container-highest);
+}
+
+/* =========================================
+   M3 Ink Ripple Effects
+   ========================================= */
+.m3-ripple {
+    position: absolute;
+    background: var(--md-sys-color-primary);
+    opacity: 0.12;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-effect 0.45s cubic-bezier(0.2, 0, 0, 1) forwards;
+    pointer-events: none;
+}
+
+@keyframes ripple-effect {
+    to {
+        transform: scale(2.5);
+        opacity: 0;
+    }
 }
 
 /* =========================================
@@ -157,6 +200,7 @@ header {
     background-color: var(--md-sys-color-surface-container);
     padding: 2.5rem;
     border-radius: var(--md-sys-shape-corner-extra-large);
+    transition: background-color 0.3s ease;
 }
 
 .article-header h1 {
@@ -183,9 +227,7 @@ header {
     font-size: 1.1rem;
 }
 
-/* =========================================
-   Shared Placeholders
-   ========================================= */
+/* Shared Placeholders */
 .image-placeholder {
     width: 100%;
     aspect-ratio: 4 / 3; 
@@ -197,6 +239,7 @@ header {
     color: var(--md-sys-color-on-surface-variant);
     font-weight: 500;
     font-size: 1.1rem;
+    transition: background-color 0.3s ease;
 }
 
 .display-aspect {
@@ -213,63 +256,11 @@ header {
         gap: 0.25rem;
     }
     nav ul li.nav-home { margin-right: 0; }
-    nav a { display: block; text-align: center; }
+    nav a, .m3-icon-button { display: block; text-align: center; width: 100%; }
     .content-container { flex-direction: column; gap: 2.5rem; }
     .article-card { padding: 1.5rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .animated-title { animation: none; transform: translateX(0); opacity: 1; }
-}
-
-/* =========================================
-   M3 New Dynamic Interactions & Components
-   ========================================= */
-
-/* Icon Button for Dark Mode Toggle */
-.m3-icon-button {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    padding: 0.6rem;
-    cursor: pointer;
-    border-radius: var(--md-sys-shape-corner-full);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease;
-}
-.m3-icon-button:hover {
-    background-color: var(--md-sys-color-surface-container-high);
-}
-
-/* Scroll-driven App Bar Elevation */
-nav {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-nav.scrolled {
-    /* Shifts color to a higher structural elevation container */
-    background-color: var(--md-sys-color-surface-container-high);
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-}
-
-/* M3 Ink Ripple Animation Styling */
-.m3-ripple {
-    position: absolute;
-    background: var(--md-sys-color-primary);
-    opacity: 0.12;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple-effect 0.45s cubic-bezier(0.2, 0, 0, 1) forwards;
-    pointer-events: none; /* Allows clicks to pass through safely */
-}
-
-@keyframes ripple-effect {
-    to {
-        transform: scale(2.5);
-        opacity: 0;
-    }
 }
