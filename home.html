@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Portfolio | Cybersecurity & Economics</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* BASE PLATFORM FOUNDATION */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #0f131a; 
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        /* ===================================================
+           LAYER 1: THE HOME CONTENT STAGE (Sits static underneath)
+           =================================================== */
+        .main-dashboard-viewport {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto; 
+            box-sizing: border-box;
+            opacity: 0;
+            transform: scale(0.97);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .main-dashboard-viewport.content-active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ===================================================
+           LAYER 2: THE SPLASH ENTRANCE (Absolute Overlay)
+           =================================================== */
+        .landing-viewport-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), 
+                        url('./images/index-background.png') no-repeat center center;
+            background-size: cover;
+            z-index: 999;
+            transition: clip-path 0.75s cubic-bezier(0.76, 0, 0.24, 1),
+                        opacity 0.6s ease;
+            clip-path: inset(0 0 0 0);
+        }
+
+        .landing-viewport-canvas.peeled-hidden {
+            clip-path: inset(0 50% 0 50%);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        /* Central Layout Card */
+        .hero-gate-card {
+            background: rgba(0, 0, 0, 0.25) !important;
+            backdrop-filter: var(--blur-intensity, blur(30px) saturate(170%)) !important;
+            -webkit-backdrop-filter: var(--blur-intensity, blur(30px) saturate(170%)) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: var(--radius-standard, 28px) !important;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5) !important;
+            padding: 4.5rem;
+            max-width: 95%;
+            width: 1150px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+            opacity: 0;
+            animation: cardJumpToLife 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .landing-viewport-canvas.peeled-hidden .hero-gate-card {
+            transform: scale(0.9) translateY(-10px);
+            opacity: 0;
+        }
+
+        .brand-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .brand-header-row .nav-icon {
+            height: 1.1em; 
+            width: auto;
+            max-width: clamp(80px, 12vw, 140px);
+            object-fit: contain;
+            flex-shrink: 0;
+            display: block;
+            opacity: 0;
+            animation: logoFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+        }
+
+        .brand-header-row h1 {
+            font-size: clamp(3rem, 7.5vw, 6.5rem) !important; 
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin: 0;
+            line-height: 1.1;
+            white-space: nowrap;
+            background: linear-gradient(to right, #a8dedb 0%, #c8d6e5 25%, #b4c6ef 50%, #c3aed6 75%, #a8dedb 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            animation: titleReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards, vibrantWave 3.5s linear infinite;
+        }
+
+        .hero-gate-card p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem) !important;
+            margin: 0;
+            font-weight: 500;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 1.5rem;
+            width: 100%;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 12px rgba(148, 163, 184, 0.25));
+            opacity: 0;
+            animation: elementFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+        }
+
+        .gate-action-container {
+            margin-top: 0.5rem;
+            opacity: 0;
+            animation: elementFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+        }
+
+        .btn-enter-gate {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.07) !important;
+            backdrop-filter: var(--blur-intensity, blur(30px) saturate(170%)) !important;
+            -webkit-backdrop-filter: var(--blur-intensity, blur(30px) saturate(170%)) !important;
+            padding: 1.3rem 3.5rem; 
+            border-radius: var(--radius-interactive, 999px) !important;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .btn-enter-gate span {
+            font-size: 1.25rem; 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 8px rgba(148, 163, 184, 0.35));
+        }
+
+        .btn-enter-gate svg { color: #e2e8f0; }
+        .btn-enter-gate:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: rgba(255, 255, 255, 0.14) !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.35) !important;
+        }
+
+        @keyframes cardJumpToLife {
+            0% { transform: scale(0.95) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        @keyframes vibrantWave {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes titleReveal {
+            0% { clip-path: inset(0 20% 0 20%); }
+            100% { clip-path: inset(0 0% 0 0%); }
+        }
+        @keyframes logoFadeIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes elementFadeUp {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-gate-card { padding: 2.5rem 1.5rem; gap: 1.5rem; }
+            .brand-header-row { flex-direction: column; gap: 1rem; }
+            .brand-header-row h1 { white-space: normal; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-dashboard-viewport" id="contentStage">
+        
+        <nav id="main-nav" aria-label="Main Navigation"></nav>
+
+        <header>
+            <div class="title-container animated-element entry-bounce">
+                <h1 class="animated-title" id="dynMainName"></h1>
+                <p class="subtitle-main" id="dynMainSubtitle"></p>
+            </div>
+        </header>
+
+        <main class="content-container">
+            <section class="surface-panel interactive text-content">
+                <h2 id="dynTargetRole"></h2>
+                <div id="dynMainParagraphs"></div>
+            </section>
+
+            <aside class="image-content glass-panel interactive animated-element animate-ready">
+                <h3>Core Competencies</h3>
+                <div class="image-placeholder">
+                    <ul id="dynCompetenciesList"></ul>
+                </div>
+            </aside>
+        </main>
+
+    </div>
+
+
+    <div class="landing-viewport-canvas" id="entranceOverlay">
+        
+        <main class="hero-gate-card">
+            <div class="brand-header-row">
+                <img src="./images/favicon.png" alt="Portfolio Identity Logo" class="nav-icon">
+                <h1 id="dynSplashTitle"></h1>
+            </div>
+            <p id="dynSplashSubtext"></p>
+
+            <div class="gate-action-container">
+                <button class="btn-enter-gate" onclick="triggerSpaReveal()">
+                    <span>Enter Site</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        // EDIT THESE VALUES TO DYNAMICALLY UPDATE THE ENTIRE LOOK & TEXT
+        const profileData = {
+            // Splash/Entrance Card Info
+            splashTitle: "E-Portfolio",
+            splashSubtext: "Cybersecurity & Economic Infrastructure Frameworks",
+
+            // Inner Dashboard Info
+            fullName: "Alex Mercer", 
+            subheading: "Cybersecurity Candidate | Economics & Threat Infrastructure Analyst",
+            targetRoleHeader: "Target Role: Cybersecurity Infrastructure Analyst",
+            universityName: "Stanford University",
+
+            // Array of core paragraph content
+            paragraphs: [
+                "Welcome to my professional e-portfolio. This site houses my core competencies, professional evaluations, and self-regulatory developmental milestones engineered during my academic tenure at {UNIVERSITY}.",
+                "<strong>The Capstone Intersect:</strong> My senior Capstone project directly addressed <strong>UN SDG 9 (Industry, Innovation, and Infrastructure)</strong>. By blending macroeconomic modeling with threat intelligence architectures, I evaluated the compounding economic fallout of zero-day exploits on supply chain ecosystems.",
+                "This technical portfolio showcases how I utilize cross-functional frameworks, analytical agility, and a strong engineering mindset to safeguard enterprise assets against systemic vulnerabilities."
+            ],
+
+            // Core Competencies Bullet Points
+            competencies: [
+                "Risk Management Frameworks",
+                "Macroeconomic Risk Modeling",
+                "UN SDG 9 Compliance Mapping",
+                "Cross-functional Team Synergy",
+                "Threat Intelligence Sourcing" // Added a 5th just to show flexibility
+            ]
+        };
+
+        // DOM Rendering Engine initialization
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Assign Splash Assets
+            document.getElementById('dynSplashTitle').innerText = profileData.splashTitle;
+            document.getElementById('dynSplashSubtext').innerText = profileData.splashSubtext;
+
+            // 2. Assign Main Text Elements
+            document.getElementById('dynMainName').innerText = profileData.fullName;
+            document.getElementById('dynMainSubtitle').innerText = profileData.subheading;
+            document.getElementById('dynTargetRole').innerText = profileData.targetRoleHeader;
+
+            // 3. Assemble Dynamic Text Paragraph Strings with the custom University injection
+            const paragraphContainer = document.getElementById('dynMainParagraphs');
+            profileData.paragraphs.forEach(textBlock => {
+                const parsedText = textBlock.replace("{UNIVERSITY}", profileData.universityName);
+                const pNode = document.createElement('p');
+                pNode.innerHTML = parsedText; // innerHTML used to handle standard portfolio <strong> tags smoothly
+                paragraphContainer.appendChild(pNode);
+            });
+
+            // 4. Assemble Competencies Bullet Items
+            const listContainer = document.getElementById('dynCompetenciesList');
+            profileData.competencies.forEach(skillItem => {
+                const liNode = document.createElement('li');
+                liNode.innerText = skillItem;
+                listContainer.appendChild(liNode);
+            });
+        });
+
+        // SPA Reveal Animation Method
+        function triggerSpaReveal() {
+            const overlay = document.getElementById('entranceOverlay');
+            const dashboard = document.getElementById('contentStage');
+            
+            overlay.classList.add('peeled-hidden');
+            dashboard.classList.add('content-active');
+        }
+    </script>
+
+</body>
+</html>
