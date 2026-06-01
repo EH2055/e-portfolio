@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3 Homepage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav aria-label="Main Navigation">
+        <ul>
+            <li class="nav-home"><a href="index.html">Home</a></li>
+            <li><a href="page1.html">Page 1</a></li>
+            <li><a href="page2.html">Page 2</a></li>
+            <li><a href="page3.html">Page 3</a></li>
+            <li><a href="page4.html">Page 4</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="animated-title">Welcome to the Homepage</h1>
+    </header>
+
+    <main class="content-container">
+        <section class="text-content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec suscipit purus. In hac habitasse platea dictumst. Vivamus sit amet semper magna, eget dignissim elit.</p>
+            <p>Curabitur a dui sit amet tortor pellentesque vestibulum eu vitae erat. Donec in tellus non est tristique rhoncus. Suspendisse potenti.</p>
+        </section>
+
+        <aside class="image-content">
+            <div class="image-placeholder">
+                <span>[ Homepage Image ]</span>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            if (window.location.href.endsWith(link.getAttribute('href')) || (link.getAttribute('href') === 'index.html' && (window.location.pathname === '/' || window.location.href.endsWith('/')))) {
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+            }
+        });
+    </script>
+</body>
+</html>

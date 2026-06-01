@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav aria-label="Main Navigation">
+        <ul>
+            <li class="nav-home"><a href="index.html">Home</a></li>
+            <li><a href="page1.html">Page 1</a></li>
+            <li><a href="page2.html">Page 2</a></li>
+            <li><a href="page3.html">Page 3</a></li>
+            <li><a href="page4.html">Page 4</a></li>
+        </ul>
+    </nav>
+
+    <main class="article-container">
+        <article class="article-card">
+            <header class="article-header">
+                <h1>Exploring New Perspectives</h1>
+                <p class="subtitle">Material Design 3 Content Layout</p>
+            </header>
+            
+            <section class="article-body">
+                <p>Welcome to the content page. This layout follows modern editorial guidelines, utilizing an elegant card container with M3's signature extra-large rounded corners. The typography shifts cleanly from a bold, expressive headline down into highly readable body copy.</p>
+                <p>In modern web architectures, keeping a unified style sheet guarantees that structural shifts—like our split navigation—render perfectly across your entire ecosystem, instantly giving your users a predictable and native-feeling interface.</p>
+            </section>
+
+            <figure class="article-media">
+                <div class="image-placeholder display-aspect">
+                    <span>[ Content Page Featured Image ]</span>
+                </div>
+            </figure>
+        </article>
+    </main>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            if (window.location.href.endsWith(link.getAttribute('href'))) {
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+/* =========================================
+   M3 Design Tokens & Variables
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;700&display=swap');
+
+:root {
+    --md-sys-color-surface: #FEF7FF;
+    --md-sys-color-on-surface: #1D1B20;
+    --md-sys-color-on-surface-variant: #49454F;
+    --md-sys-color-surface-container: #F3EDF7;
+    --md-sys-color-surface-container-high: #ECE6F0;
+    --md-sys-color-surface-container-highest: #E6E1E5;
+    
+    --md-sys-color-primary: #6750A4;
+    --md-sys-color-secondary-container: #E8DEF8;
+    --md-sys-color-on-secondary-container: #1D192B;
+    
+    --md-sys-shape-corner-extra-large: 28px;
+    --md-sys-shape-corner-full: 100px;
+}
+
+/* =========================================
+   Base Resets
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Google Sans Flex', 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--md-sys-color-on-surface);
+    background-color: var(--md-sys-color-surface);
+}
+
+/* =========================================
+   Navigation (Split Layout)
+   ========================================= */
+nav {
+    background-color: var(--md-sys-color-surface-container);
+    padding: 0.75rem 2rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 0.5rem;
+}
+
+/* Pushes Home to the left, everything else right */
+nav ul li.nav-home {
+    margin-right: auto;
+}
+
+nav a {
+    color: var(--md-sys-color-on-surface-variant);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--md-sys-shape-corner-full);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+nav a:hover, 
+nav a:focus {
+    background-color: var(--md-sys-color-surface-container-high);
+    color: var(--md-sys-color-on-surface);
+    outline: none;
+}
+
+/* Targetted by JavaScript auto-highlighting */
+nav a.active {
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+}
+
+/* =========================================
+   Homepage Components
+   ========================================= */
+header {
+    text-align: center;
+    padding: 5rem 1rem 3rem;
+    overflow-x: hidden;
+}
+
+.animated-title {
+    font-size: clamp(2.5rem, 6vw, 4rem); 
+    font-weight: 400; 
+    letter-spacing: -0.5px;
+    display: inline-block;
+    animation: slide-in 1s cubic-bezier(0.2, 0, 0, 1) forwards; 
+}
+
+@keyframes slide-in {
+    from { transform: translateX(-100vw); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.content-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    gap: 4rem;
+    align-items: center;
+}
+
+.text-content {
+    flex: 1;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.text-content p {
+    margin-bottom: 1.25rem;
+    font-size: 1.1rem;
+}
+
+.image-content {
+    flex: 1;
+    width: 100%;
+}
+
+/* =========================================
+   Content Page Components (Pages 1-4)
+   ========================================= */
+.article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+.article-card {
+    background-color: var(--md-sys-color-surface-container);
+    padding: 2.5rem;
+    border-radius: var(--md-sys-shape-corner-extra-large);
+}
+
+.article-header h1 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 400;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 0.5rem;
+}
+
+.article-header .subtitle {
+    font-size: 1.1rem;
+    color: var(--md-sys-color-primary);
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+.article-body {
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 2.5rem;
+}
+
+.article-body p {
+    margin-bottom: 1.25rem;
+    font-size: 1.1rem;
+}
+
+/* =========================================
+   Shared Placeholders
+   ========================================= */
+.image-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3; 
+    background-color: var(--md-sys-color-surface-container-highest);
+    border-radius: var(--md-sys-shape-corner-extra-large);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--md-sys-color-on-surface-variant);
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.display-aspect {
+    aspect-ratio: 16 / 9;
+}
+
+/* =========================================
+   Mobile Responsiveness
+   ========================================= */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+    }
+    nav ul li.nav-home { margin-right: 0; }
+    nav a { display: block; text-align: center; }
+    .content-container { flex-direction: column; gap: 2.5rem; }
+    .article-card { padding: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animated-title { animation: none; transform: translateX(0); opacity: 1; }
+}
