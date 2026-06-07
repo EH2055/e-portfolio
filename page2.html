@@ -3,34 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self-Regulation | E-Portfolio</title>
+    <title>E-Portfolio | Capstone Unit and Project</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Keep page-specific baseline clean and allow theme overrides */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        /* Direct visibility initialization for sub-pages bypassing the gate splash */
+        .sub-viewport-stage {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto; 
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            padding-bottom: 50px;
+        }
+
+        /* Inline helpers to ensure layout spacing and cluster alignment match dashboard behavior */
+        .section-row {
+            margin-bottom: 2rem;
+        }
+
+        /* Ensure texts inside the structural panels follow dashboard contrast rules */
+        .text-content p, .text-content ul {
+            color: var(--text-muted, currentColor);
+        }
+        
+        .text-content h2 {
+            color: var(--text-heading, currentColor);
+        }
+    </style>
 </head>
 <body>
 
-    <nav id="main-nav" aria-label="Main Navigation"></nav>
+    <div class="sub-viewport-stage" id="contentStage">
+        
+        <header>
+            <div class="title-container sub-page-animate delay-1">
+                <h1 class="animated-title">Capstone Unit and Project</h1>
+                <p class="subtitle-main">Overview of my project contributions and team dynamics.</p>
+            </div>
+        </header>
 
-    <main class="article-container">
-        <article class="glass-panel">
-            <header class="article-header">
-                <span class="subtitle">Competency Domain 2</span>
-                <h1>Self-Regulation</h1>
-                <div class="badge-container">
-                    <span class="badge">Skill Valuation</span>
-                    <span class="badge">Evidence-Based Milestones</span>
-                    <span class="badge">Workplace Readiness</span>
-                </div>
-            </header>
-            
-            <section class="article-body">
-                <p>Navigating a multi-disciplinary Capstone that tied economic infrastructures to international sustainability mandates required rigorous individual self-regulation and highly disciplined timeline curation.</p>
-                
-                <p>In future cybersecurity workspaces, technical capability is useless without strategic time management and proactive skill acquisition. I justified this value by establishing concrete, evidence-based development phases throughout the project lifecycle. When our team's data ingestion pipeline slowed, I autonomously budgeted 6 hours a week outside our baseline meetings to master log aggregation tools, maintaining our production schedule.</p>
-                
-                <p>My self-regulation strategy is built on quantifiable metrics: tracking task completion velocities using Kanban methodologies and monitoring errors during threat simulation runs. This structured focus minimized bottlenecks, ensuring our UN SDG impact documentation was delivered ahead of deadline with rigorous analytical accuracy.</p>
+        <!-- Section 1: Report Structure -->
+        <main class="content-container section-row">
+            <section class="surface-panel interactive text-content sub-page-animate delay-2">
+                <h2>Report Structure</h2>
+                <p>During the project, I was responsible for the economics section of the report, working towards SDG Goal 11.</p>
             </section>
-        </article>
-    </main>
+
+            <aside class="image-content glass-panel interactive sub-page-animate delay-2">
+                <img src="images/sdg.png" alt="Report Structure Framework" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </aside>
+        </main>
+
+        <!-- Section 2: Collaboration -->
+        <main class="content-container section-row">
+            <section class="surface-panel interactive text-content sub-page-animate delay-3">
+                <h2>Collaboration</h2>
+                <p>This strengthened my ability to work effectively in cross functional teams.</p>
+                <p style="margin-top: 1rem;">Collaborated with group members to gather and synthesize information.</p>
+            </section>
+
+            <aside class="image-content glass-panel interactive sub-page-animate delay-3">
+                <img src="images/report.png" alt="Team Collaboration Workspace" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </aside>
+        </main>
+
+    </div>
 
     <script src="script.js"></script>
 </body>

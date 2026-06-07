@@ -16,14 +16,15 @@
     --color-on-primary-container: #5c240e;
     
     --color-surface: #ffffff;              
-    --color-surface-container: rgba(255, 255, 255, 0.65); 
+    /* Slightly lowered opacity to let the warm gradient peek through the glass card */
+    --color-surface-container: rgba(255, 255, 255, 0.55); 
     --color-on-surface: #1e1e24; 
     --color-on-surface-variant: #4e4844;
 
     /* Dynamic Interface Bridge Mapping (Light Theme) */
     --surface-main: var(--color-surface-container);
     --surface-nav: rgba(255, 255, 255, 0.5);              
-    --surface-border: rgba(133, 58, 29, 0.08);            
+    --surface-border: rgba(133, 58, 29, 0.12); /* Slightly defined for clear light-mode card boundaries */
     --text-primary: var(--color-on-surface);
     --text-secondary: var(--color-on-surface-variant);
     --btn-primary-bg: var(--color-primary-container);
@@ -38,7 +39,8 @@
     --radius-standard: 28px; 
     --radius-interactive: 999px;
     --blur-intensity: blur(30px) saturate(160%);          
-    --shadow-depth: 0 12px 40px rgba(78, 72, 68, 0.03);
+    /* Upgraded Light Shadow: Gives the card real depth against the ambient dashboard background */
+    --shadow-depth: 0 16px 48px rgba(78, 72, 68, 0.07);
     --motion-ease-entry: cubic-bezier(0.2, 0, 0, 1); 
     --motion-ease-hover: cubic-bezier(0.2, 0, 0, 1);  
     --duration-entry: 0.5s;
@@ -282,7 +284,7 @@ body:not(.dark-theme) .menu-trigger-btn:hover {
 }
 
 /* ==========================================================================
-   FULLSCREEN MENU OVERLAY & WIBIFY-STYLE TEXT SPLIT-WAVE OVERRIDE
+   FULLSCREEN MENU OVERLAY & HIGH-CONTRAST WAVE COMPONENT
    ========================================================================== */
 
 .fullscreen-menu-overlay {
@@ -291,9 +293,9 @@ body:not(.dark-theme) .menu-trigger-btn:hover {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(15, 19, 26, 0.15) !important; 
-    backdrop-filter: blur(35px) saturate(180%) !important; 
-    -webkit-backdrop-filter: blur(35px) saturate(180%) !important;
+    background: rgba(15, 19, 26, 0.25) !important; 
+    backdrop-filter: blur(40px) saturate(180%) !important; 
+    -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -302,13 +304,13 @@ body:not(.dark-theme) .menu-trigger-btn:hover {
     opacity: 0;
     pointer-events: none;
     font-family: 'Google Sans Flex', sans-serif !important; 
-    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 body:not(.dark-theme) .fullscreen-menu-overlay {
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(35px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(35px) saturate(160%) !important;
+    background: rgba(240, 244, 248, 0.5) !important; 
+    backdrop-filter: blur(40px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(150%) !important;
 }
 
 .fullscreen-menu-overlay.menu-active {
@@ -320,23 +322,23 @@ body:not(.dark-theme) .fullscreen-menu-overlay {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.4rem; /* Adjusted for taller text blocks */
+    gap: 1.4rem; 
     width: 100%;
-    max-width: 600px;
+    max-width: 90vw; 
     box-sizing: border-box;
     padding: 2rem;
 }
 
-/* Wibify Style Sliding Container Block */
+/* Container Clipping Block */
 .rolling-link {
     text-decoration: none;
     position: relative;
     display: block;
     overflow: hidden; 
-    height: 4.8rem;  /* Expanded to safely hold the larger text */
+    height: 4.8rem;  
     line-height: 4.8rem;
     text-align: center;
-    width: auto;
+    width: max-content; 
     padding: 0 2.5rem;
     background: transparent !important; 
     border: none !important;             
@@ -344,39 +346,29 @@ body:not(.dark-theme) .fullscreen-menu-overlay {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Target Inner Span Layout System */
+/* Standard Inactive State */
 .rolling-link .link-text {
     position: relative;
     display: block;
-    font-size: clamp(2.8rem, 6.5vw, 3.8rem); /* BUMPED UP: Increased text scaling constraints */
+    font-size: clamp(2rem, 5vw, 3.4rem); 
     font-weight: 800;
     letter-spacing: -1px;
-    color: #ffffff;
+    color: #94a3b8; 
     text-transform: capitalize;
-    
-    /* Contained Gradient Configuration - Zero bleed outside text lines */
-    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    
-    text-shadow: 0 0 1px rgba(255, 255, 255, 0.05); 
+    white-space: nowrap; 
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    text-shadow: none !important;
     filter: none !important; 
-    
-    /* Sliding Motion Properties */
-    transition: transform 0.45s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Light Theme Font Gradient Adjustments */
 body:not(.dark-theme) .rolling-link .link-text {
-    background: linear-gradient(180deg, #0f131a 0%, #334155 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
+    color: #64748b; 
 }
 
-/* Dual Layer Injection Mechanism to support the clean split duplicate lift */
+/* Wave Sliding Element */
 .rolling-link .link-text::after {
     content: attr(data-text) !important;
     display: block !important;
@@ -387,61 +379,29 @@ body:not(.dark-theme) .rolling-link .link-text {
     height: 100% !important;
     visibility: visible !important;
     opacity: 1 !important;
-    
-    /* Hover Target Vibrant Color Modifications */
-    background: linear-gradient(135deg, #a8dedb 0%, #ffffff 50%, #b4c6ef 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    text-shadow: 0 0 12px rgba(168, 222, 219, 0.5) !important; 
+    white-space: nowrap; 
+    color: #ffffff !important; 
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    text-shadow: none !important;
+    filter: none !important;
 }
 
 body:not(.dark-theme) .rolling-link .link-text::after {
-    background: linear-gradient(135deg, #00796b 0%, #1a237e 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    text-shadow: none !important;
+    color: #0f131a !important; 
 }
 
-/* Sliding Wave Interaction Triggers */
+/* Sliding Hover Trigger Action */
 .rolling-link:hover .link-text {
     transform: translateY(-100%) !important; 
 }
 
-/* SELECTED PAGE INDICATORS: Given explicit custom highlight signatures */
-.active-page-indicator .link-text {
-    background: linear-gradient(135deg, #a8dedb 0%, #b4c6ef 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    text-shadow: 0 0 15px rgba(168, 222, 219, 0.4) !important; /* Glow isolated neatly behind letters */
-}
-
-body:not(.dark-theme) .active-page-indicator .link-text {
-    background: linear-gradient(135deg, #00796b 0%, #3f51b5 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    text-shadow: 0 0 10px rgba(0, 121, 107, 0.15) !important;
-}
-
-/* Selected page keeps its custom indicator color identity even when rolling out on hover */
-.active-page-indicator .link-text::after {
-    background: linear-gradient(135deg, #b4c6ef 0%, #ffffff 50%, #a8dedb 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-}
-
-body:not(.dark-theme) .active-page-indicator .link-text::after {
-    background: linear-gradient(135deg, #3f51b5 0%, #0f131a 50%, #00796b 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-}
-
-/* Close Button Structural Settings */
+/* Close Button Structural Settings - Positioned Strictly Top Right */
 .menu-close-btn {
-    position: absolute !important;
-    top: 2.5rem !important;
-    right: 3.5rem !important; 
+    position: fixed !important; 
+    top: 2rem !important;
+    right: 2.5rem !important; 
     background: transparent !important;
     border: none !important;
     color: #ffffff;
@@ -465,10 +425,10 @@ body:not(.dark-theme) .menu-close-btn {
 
 .menu-close-btn:hover {
     transform: scale(1.15) rotate(90deg) !important;
-    color: #a8dedb;
+    color: #4ade80;
 }
 body:not(.dark-theme) .menu-close-btn:hover {
-    color: #00796b;
+    color: #115e59;
 }
 
 /* Fixed Overlay Menu Footer Cluster */
@@ -500,12 +460,44 @@ body:not(.dark-theme) .menu-footer-line {
     color: rgba(15, 19, 26, 0.5);
 }
 
-/* ===================================================
-   CONTENT WORKSPACE & CANVAS SETUP
-   =================================================== */
+/* ==========================================================================
+   CONTENT WORKSPACE & WINDOW LAYOUT
+   ========================================================================== */
+.main-dashboard-viewport {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    background-color: transparent; /* Allows body gradients to show */
+}
+
+/* Window Content Sections */
+.snap-window {
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    box-sizing: border-box;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.snap-window:first-of-type {
+    justify-content: flex-start;
+}
+
 header {
     text-align: center;
-    padding: 7.5rem 1.2rem 1.2rem;
+    padding: 6.5rem 1.2rem 1rem; 
 }
 
 .title-container {
@@ -513,85 +505,226 @@ header {
 }
 
 .animated-title {
-    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    font-size: clamp(2.8rem, 6vw, 4.2rem); 
     font-weight: 700;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
     color: var(--text-hero-title);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .subtitle-main {
     color: var(--text-hero-subtitle);
-    font-size: 1.2rem;
+    font-size: 1.3rem; 
     margin-top: 0.6rem;
     font-weight: 400;
 }
 
 .content-container {
     display: flex;
-    max-width: 1320px;
+    width: 100%;
+    max-width: 1600px; 
     margin: 0 auto;
-    padding: 2.4rem 1.8rem;
-    gap: 3rem;
-    align-items: flex-start;
+    padding: 2rem 6rem; 
+    gap: 5rem; 
+    align-items: center; 
+    box-sizing: border-box;
 }
 
-.surface-panel {
+.split-60-40 .text-content { flex: 5.5 !important; }
+.split-60-40 .image-content { flex: 4.5 !important; }
+.layout-right-text { flex-direction: row-reverse; }
+
+.surface-panel, .glass-panel {
     background: var(--surface-main);
     backdrop-filter: var(--blur-intensity);
     -webkit-backdrop-filter: var(--blur-intensity);
     border: 1px solid var(--surface-border);
     border-radius: var(--radius-standard);   
     box-shadow: var(--shadow-depth);          
-    padding: 3rem;
+    padding: 3.5rem; 
     width: 100%;
     display: block;
+    box-sizing: border-box;
+}
+
+/* Kept Safe: Image Frame Engine with Transparent Backgrounds */
+.image-wrapper-frame {
+    width: 100%;
+    height: 100%;
+    min-height: 400px; 
+    max-height: 550px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: calc(var(--radius-standard) - 4px);
+    background: transparent !important; 
+    box-shadow: none !important; 
+}
+
+.portfolio-display-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.glass-panel.interactive:hover .portfolio-display-image {
+    transform: scale(1.04);
 }
 
 .surface-panel.interactive:hover {
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px) scale(1.005);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
     background: rgba(255, 255, 255, 0.75); 
 }
 
 body.dark-theme .surface-panel.interactive:hover {
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     background: rgba(35, 38, 45, 0.6);
 }
 
-.text-content {
-    flex: 1.3;
-}
-
 .text-content h2 {
-    font-size: 1.8rem;
+    font-size: 2.2rem; 
     font-weight: 700;
     letter-spacing: -0.5px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
     color: var(--text-primary);
+    line-height: 1.3;
 }
 
 .text-content p {
     color: var(--text-secondary); 
-    margin-bottom: 1.5rem;
-    font-size: 1.05rem;
-    line-height: 1.65;
+    margin-bottom: 1.6rem;
+    font-size: 1.2rem; 
+    line-height: 1.75;  
 }
 
-.image-content {
-    flex: 0.8;
-    width: 100%;
+.text-content p:last-child {
+    margin-bottom: 0;
 }
 
-.image-placeholder ul {
-    list-style-type: none;
+/* ==========================================================================
+   HIGH-CONTRAST DOT HUD (LIGHT & DARK PROOF)
+   ========================================================================== */
+.dot-navigation-rail {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.2rem 0.8rem;
+    border-radius: 30px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(15, 19, 26, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-theme .dot-navigation-rail {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dot-navigation-rail.rail-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.nav-dot {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
     padding: 0;
+    box-sizing: border-box;
+    background: rgba(15, 19, 26, 0.35);
+    border: 2px solid rgba(15, 19, 26, 0.6); 
+    transition: background 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.image-placeholder li {
-    padding: 0.6rem 0;
-    color: var(--text-secondary);
-    border-bottom: 1px solid var(--surface-border);
+body.dark-theme .nav-dot {
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.nav-dot:hover {
+    transform: scale(1.25);
+    background: rgba(15, 19, 26, 0.8);
+    border-color: rgba(15, 19, 26, 1);
+}
+
+body.dark-theme .nav-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.nav-dot.active {
+    background: #00796b !important; 
+    border-color: #004d40 !important;
+    transform: scale(1.35);
+    box-shadow: 0 0 12px rgba(0, 121, 107, 0.5);
+}
+
+body.dark-theme .nav-dot.active {
+    background: #4db6ac !important; 
+    border-color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(77, 182, 172, 0.7);
+}
+
+/* Tooltips */
+.nav-dot::after {
+    content: attr(data-label);
+    position: absolute;
+    right: 2.2rem;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background: #11151d;
+    color: #ffffff;
+    font-family: 'Google Sans Flex', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.dark-theme .nav-dot::after {
+    background: #ffffff;
+    color: #0f131a;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.nav-dot:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Responsive Overrides */
+@media (max-width: 968px) {
+    .dot-navigation-rail { display: none !important; }
+    .main-dashboard-viewport { height: auto !important; max-height: none !important; }
+    .snap-window { height: auto !important; min-height: auto !important; max-height: none !important; padding: 2rem 0; }
+    .content-container { flex-direction: column !important; gap: 2rem; padding: 1rem 1.5rem; }
+    .split-60-40 .text-content, .split-60-40 .image-content { width: 100% !important; flex: none !important; }
+    .image-wrapper-frame { min-height: 240px; }
 }
 
 /* ===================================================
@@ -642,5 +775,507 @@ body.dark-theme .surface-panel.interactive:hover {
     .rolling-link {
         opacity: 1 !important;
         transform: none !important;
+    }
+}
+
+/* ==========================================================================
+   SUB-PAGE AUTOMATED FLY-IN ENTRANCE SYSTEM
+   ========================================================================== */
+body:not(:has(#entranceOverlay)) .text-content,
+body:not(:has(#entranceOverlay)) .title-container {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: subPageElementFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+body:not(:has(#entranceOverlay)) .image-content {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: subPageElementFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.sub-page-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: subPageElementFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+
+@keyframes subPageElementFadeUp {
+    0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ==========================================================================
+   HIGH-CONTRAST DOT HUD (LIGHT & DARK PROOF)
+   ========================================================================== */
+.dot-navigation-rail {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.2rem 0.8rem;
+    border-radius: 30px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(15, 19, 26, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-theme .dot-navigation-rail {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dot-navigation-rail.rail-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.nav-dot {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    box-sizing: border-box;
+    background: rgba(15, 19, 26, 0.35);
+    border: 2px solid rgba(15, 19, 26, 0.6); 
+    transition: background 0.3s ease, 
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25), 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+body.dark-theme .nav-dot {
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.nav-dot:hover {
+    transform: scale(1.25);
+    background: rgba(15, 19, 26, 0.8);
+    border-color: rgba(15, 19, 26, 1);
+}
+
+body.dark-theme .nav-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.nav-dot.active {
+    background: #00796b !important; 
+    border-color: #004d40 !important;
+    transform: scale(1.35);
+    box-shadow: 0 0 12px rgba(0, 121, 107, 0.5);
+}
+
+body.dark-theme .nav-dot.active {
+    background: #4db6ac !important; 
+    border-color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(77, 182, 172, 0.7);
+}
+
+/* DYNAMIC HOVER TOOLTIPS */
+.nav-dot::after {
+    content: attr(data-label);
+    position: absolute;
+    right: 2.2rem;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background: #11151d;
+    color: #ffffff;
+    font-family: 'Google Sans Flex', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.dark-theme .nav-dot::after {
+    background: #ffffff;
+    color: #0f131a;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.nav-dot:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+    .dot-navigation-rail {
+        display: none !important; 
+    }
+    .main-dashboard-viewport {
+        height: auto !important;
+        max-height: none !important;
+    }
+    .snap-window {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        padding: 4rem 0 2rem;
+    }
+    .content-container {
+        flex-direction: column !important; 
+        gap: 2.5rem;
+        padding: 1rem 2rem;
+    }
+    .split-60-40 .text-content,
+    .split-60-40 .image-content {
+        width: 100% !important;
+        flex: none !important;
+    }
+    .image-wrapper-frame {
+        min-height: 280px;
+    }
+}
+
+/* ==========================================================================
+   5. REDESIGNED HIGH-CONTRAST DOT HUD (LIGHT & DARK PROOF)
+   ========================================================================== */
+.dot-navigation-rail {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.2rem 0.8rem;
+    border-radius: 30px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Matte frosted background track shell guarantees contrast in pure white layouts */
+    background: rgba(15, 19, 26, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-theme .dot-navigation-rail {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dot-navigation-rail.rail-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Base Dot Element Setup */
+.nav-dot {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    box-sizing: border-box;
+    
+    /* Default High Contrast Light Theme States */
+    background: rgba(15, 19, 26, 0.35);
+    border: 2px solid rgba(15, 19, 26, 0.6); 
+    
+    transition: background 0.3s ease, 
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25), 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* Default High Contrast Dark Theme Fallbacks */
+body.dark-theme .nav-dot {
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.nav-dot:hover {
+    transform: scale(1.25);
+    background: rgba(15, 19, 26, 0.8);
+    border-color: rgba(15, 19, 26, 1);
+}
+
+body.dark-theme .nav-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+/* Active Highlight Global System Colors */
+.nav-dot.active {
+    background: #00796b !important; 
+    border-color: #004d40 !important;
+    transform: scale(1.35);
+    box-shadow: 0 0 12px rgba(0, 121, 107, 0.5);
+}
+
+body.dark-theme .nav-dot.active {
+    background: #4db6ac !important; 
+    border-color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(77, 182, 172, 0.7);
+}
+
+/* ==========================================================================
+   DYNAMIC CSS HOVER HOOK TOOLTIPS
+   ========================================================================== */
+.nav-dot::after {
+    content: attr(data-label);
+    position: absolute;
+    right: 2.2rem;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background: #11151d;
+    color: #ffffff;
+    font-family: 'Google Sans Flex', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.dark-theme .nav-dot::after {
+    background: #ffffff;
+    color: #0f131a;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Tooltip Reveal Triggers */
+.nav-dot:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Responsive Overrides */
+@media (max-width: 968px) {
+    .dot-navigation-rail {
+        display: none !important; 
+    }
+    .main-dashboard-viewport {
+        height: auto !important;
+        max-height: none !important;
+    }
+    .snap-window {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        padding: 2rem 0;
+    }
+    .content-container {
+        flex-direction: column !important; 
+        gap: 2rem;
+        padding: 1rem 1.5rem;
+    }
+    .split-60-40 .text-content,
+    .split-60-40 .image-content {
+        width: 100% !important;
+        flex: none !important;
+    }
+    .image-wrapper-frame {
+        min-height: 240px;
+    }
+}
+
+/* ==========================================================================
+   5. FLOATING SIDE-DOT HUD NAVIGATION STYLING
+   ========================================================================== */
+.dot-navigation-rail {
+    position: fixed;
+    right: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    z-index: 100; /* Stays above elements, cleanly sitting underneath slide menus */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Becomes visible only when the splash entrance card is dissolved */
+.dot-navigation-rail.rail-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease;
+}
+
+.nav-dot:hover {
+    transform: scale(1.3);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* Light & Dark Active State HUD Accent Controls */
+.nav-dot.active {
+    background: #4db6ac; 
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.4);
+    box-shadow: 0 0 15px rgba(77, 182, 172, 0.6);
+}
+
+/* Responsive Fallbacks */
+@media (max-width: 968px) {
+    .dot-navigation-rail {
+        display: none !important; /* Hide dot interfaces on touch devices to clean up space */
+    }
+    .main-dashboard-viewport {
+        height: auto !important;
+        max-height: none !important;
+    }
+    .snap-window {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        padding: 2rem 0;
+    }
+    .content-container {
+        flex-direction: column !important; 
+        gap: 2rem;
+        padding: 1rem 1.5rem;
+    }
+    .split-60-40 .text-content,
+    .split-60-40 .image-content {
+        width: 100% !important;
+        flex: none !important;
+    }
+    .image-wrapper-frame {
+        min-height: 240px;
+    }
+}
+
+/* ===================================================
+   DOCUMENTATION SECTION FRAMEWORK
+   =================================================== */
+.article-container {
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 2.4rem 1.8rem;
+}
+
+.badge-container {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.8rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    background: var(--btn-secondary-bg);
+    color: var(--text-primary);
+    padding: 0.35rem 0.95rem;
+    border-radius: var(--radius-interactive);
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid var(--surface-border);
+    transition: background 0.2s, color 0.2s;
+}
+
+.badge:hover {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+}
+
+/* ===================================================
+   UNIVERSAL ACCESSIBILITY SYSTEM OVERRIDES
+   =================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-delay: -1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: initial !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+    }
+    .rolling-link {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+
+/* ==========================================================================
+   SUB-PAGE AUTOMATED FLY-IN ENTRANCE SYSTEM
+   ========================================================================== */
+
+/* Target text panels on sub-pages (where .main-dashboard-viewport doesn't rely on clicking enter) */
+body:not(:has(#entranceOverlay)) .text-content,
+body:not(:has(#entranceOverlay)) .title-container {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: subPageElementFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+/* Target aside/image panels on sub-pages with a slight staggered delay */
+body:not(:has(#entranceOverlay)) .image-content {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: subPageElementFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+/* Explicit fallback logic for older browsers missing the CSS :has selector */
+.sub-page-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: subPageElementFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+
+@keyframes subPageElementFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }

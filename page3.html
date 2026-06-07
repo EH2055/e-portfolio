@@ -3,34 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self-Evaluation | E-Portfolio</title>
+    <title>E-Portfolio | Teamwork</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Keep page-specific baseline clean and allow theme overrides */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        /* Direct visibility initialization for sub-pages bypassing the gate splash */
+        .sub-viewport-stage {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto; 
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            padding-bottom: 50px;
+        }
+
+        /* Inline helpers to ensure layout spacing and cluster alignment match dashboard behavior */
+        .section-row {
+            margin-bottom: 2rem;
+        }
+
+        /* Full-width stretch container for the quote with no background box */
+        .full-width-quote-container {
+            width: 100%;
+            max-width: 1200px; /* Matches default dashboard content width limits */
+            margin: 0 auto 3rem auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        .quote-text {
+            font-size: 1.35rem; 
+            line-height: 1.6; 
+            font-style: italic; 
+            border-left: 4px solid #4a90e2; 
+            padding-left: 20px;
+            margin: 0;
+            /* Leverages text-color variable if present, falls back to a contrast-safe grey */
+            color: var(--text-main, var(--text-color, currentColor)); 
+        }
+
+        /* Ensure texts inside the structural panels follow dashboard contrast rules */
+        .text-content p, .text-content ul {
+            color: var(--text-muted, currentColor);
+        }
+        
+        .text-content h2 {
+            color: var(--text-heading, currentColor);
+        }
+
+        .quote-link {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .quote-link:hover {
+            text-decoration: underline;
+            color: #6ba4e8;
+        }
+    </style>
 </head>
 <body>
 
-    <nav id="main-nav" aria-label="Main Navigation"></nav>
+    <div class="sub-viewport-stage" id="contentStage">
+        
+        <header>
+            <div class="title-container sub-page-animate delay-1">
+                <h1 class="animated-title">Teamwork</h1>
+                <p class="subtitle-main">How the Capstone help strengthen my Teamwork skills</p>
+            </div>
+        </header>
 
-    <main class="article-container">
-        <article class="glass-panel">
-            <header class="article-header">
-                <span class="subtitle">Competency Domain 3</span>
-                <h1>Self-Evaluation</h1>
-                <div class="badge-container">
-                    <span class="badge">Feedback Optimization</span>
-                    <span class="badge">Self-Awareness</span>
-                    <span class="badge">Remediation Planning</span>
-                </div>
-            </header>
-            
-            <section class="article-body">
-                <p>True defensive security relies on constant auditing and performance iteration. Throughout our individual research and cross-team development tasks, I treated critique as an optimizing tool to validate our UN SDG infrastructure metrics.</p>
+        <div class="full-width-quote-container sub-page-animate delay-1">
+            <p class="quote-text">
+                As the <a href="https://au.linkedin.com/in/deliadeng" target="_blank" class="quote-link">Account Executive said at Salesforce</a> said: "Human connection... during COVID when everything just went into lockdown, she still found it effective to build connection with people, but it had to be deliberate"
+            </p>
+        </div>
+
+        <main class="content-container section-row">
+            <section class="surface-panel interactive text-content sub-page-animate delay-2">
+                <h2>Made major ideas in class</h2>
+                <p>Improved communications, increased teamwork efficiency and reduced over collaboration.</p>
                 
-                <p>During our initial review, feedback from stakeholders indicated that while my economic damage models were flawless, the technical cybersecurity phrasing required deeper alignment with industry standards. Exhibiting strong self-awareness, I welcomed this critique and immediately planned specific, evidence-based remediation steps.</p>
-                
-                <p>I cross-referenced our economic results with standard corporate risk matrix vocabularies (NIST & MITRE ATT&CK frameworks). By mapping economics directly to active exploits, I re-engineered our final presentations into a highly authentic document that effectively bridges corporate finance and security engineering.</p>
+                <h2 style="margin-top: 2rem;">Feedback was encouraged</h2>
+                <p>It provides valuable learning opportunity and helps identify areas that are otherwise overlooked.</p>
             </section>
-        </article>
-    </main>
+
+            <aside class="image-content glass-panel interactive sub-page-animate delay-2">
+                <img src="images/class.avif" alt="Collaborative Class Workspace Asset" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </aside>
+        </main>
+
+    </div>
 
     <script src="script.js"></script>
 </body>

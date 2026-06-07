@@ -23,10 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentPath.startsWith('index.html')) currentPath = 'index.html';
 
     let pageHeadingText = "Home"; 
-    if (currentPath === 'page1.html') pageHeadingText = "Reflection";
-    else if (currentPath === 'page2.html') pageHeadingText = "Regulation";
-    else if (currentPath === 'page3.html') pageHeadingText = "Evaluation";
-    else if (currentPath === 'page4.html') pageHeadingText = "Mindset";
+    if (currentPath === 'page1.html') pageHeadingText = "Case Study";
+    else if (currentPath === 'page2.html') pageHeadingText = "Capstone Project";
+    else if (currentPath === 'page3.html') pageHeadingText = "Teamwork";
+    else if (currentPath === 'page4.html') pageHeadingText = "Individual Goals & Growth";
 
     let navElement = document.querySelector('.floating-pill-nav');
     if (!navElement) {
@@ -67,10 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </button>
         <nav class="fullscreen-nav-links">
             <a href="index.html?entered=true" class="rolling-link"><span class="link-text" data-text="Home">Home</span></a>
-            <a href="page1.html" class="rolling-link"><span class="link-text" data-text="Reflection">Reflection</span></a>
-            <a href="page2.html" class="rolling-link"><span class="link-text" data-text="Regulation">Regulation</span></a>
-            <a href="page3.html" class="rolling-link"><span class="link-text" data-text="Evaluation">Evaluation</span></a>
-            <a href="page4.html" class="rolling-link"><span class="link-text" data-text="Mindset">Mindset</span></a>
+            <a href="page1.html" class="rolling-link"><span class="link-text" data-text="Case Study">Case Study</span></a>
+            <a href="page2.html" class="rolling-link"><span class="link-text" data-text="Capstone Project">Capstone Project</span></a>
+            <a href="page3.html" class="rolling-link"><span class="link-text" data-text="Teamwork">Teamwork</span></a>
+            <a href="page4.html" class="rolling-link"><span class="link-text" data-text="Individual Goals and Growth">Individual Goals and Growth</span></a>
         </nav>
         <footer class="menu-footer-container">
             <div class="menu-footer-line">Contact Me</div>
@@ -91,26 +91,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // =========================================
-    // 3. Centralized Palette Toggle Manager
+    // 3. Centralized Palette Toggle Manager (FIXED)
     // =========================================
     const themeToggle = document.getElementById('themeToggle');
     if (themeToggle) {
-        if (localStorage.getItem('theme') === 'dark') {
+        // Init state check
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.remove('dark-theme');
+            document.body.classList.add('light-theme');
+            themeToggle.textContent = '🌙';
+        } else {
+            document.body.classList.remove('light-theme');
             document.body.classList.add('dark-theme');
             themeToggle.textContent = '☀️';
-        } else {
-            document.body.classList.remove('dark-theme');
-            themeToggle.textContent = '🌙';
         }
 
+        // Live Toggle event
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-theme');
             if (document.body.classList.contains('dark-theme')) {
-                localStorage.setItem('theme', 'dark');
-                themeToggle.textContent = '☀️';
-            } else {
+                document.body.classList.remove('dark-theme');
+                document.body.classList.add('light-theme');
                 localStorage.setItem('theme', 'light');
                 themeToggle.textContent = '🌙';
+            } else {
+                document.body.classList.remove('light-theme');
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.textContent = '☀️';
             }
         });
     }
@@ -146,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Outside Canvas Click Dismissal Handler
     // =========================================
     menuOverlay.addEventListener('click', function(event) {
-        // Safe context checking: ensures overlay structure exists before targeting classes
         if (event.target === menuOverlay || event.target.classList.contains('fullscreen-nav-links')) {
             toggleMenu(false);
         }

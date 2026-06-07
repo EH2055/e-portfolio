@@ -9,6 +9,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Hurricane&family=Google+Sans+Flex:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
+        /* ===================================================
+            DYNAMIC THEMATIC VARIABLE INJECTIONS
+            Forces absolute control over style.css overrides
+           =================================================== */
+        body.dark-theme {
+            background-color: #0f131a !important;
+            color: #ffffff !important;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+            --card-hover-border: rgba(168, 222, 219, 0.5);
+            --card-hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+            --text-heading: #ffffff;
+            --text-body: #e2e8f0;
+            --bullet-color: #a8dedb;
+        }
+        
+        body.light-theme {
+            background-color: #ebedf2 !important; 
+            color: #111827 !important;
+            --card-bg: rgba(255, 255, 255, 0.85); 
+            --card-border: rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --card-hover-border: rgba(0, 105, 92, 0.4);
+            --card-hover-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --text-heading: #111827;
+            --text-body: #374151;
+            --bullet-color: #00695c;
+        }
+
         /* BASE PLATFORM FOUNDATION */
         body, html {
             margin: 0;
@@ -16,17 +46,57 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            background-color: #0f131a; 
             font-family: 'Google Sans Flex', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* FIX: FORCE DOT RAIL TO BE HIDDEN UNTIL SPA REVEAL */
+        .dot-navigation-rail {
+            position: fixed; 
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        /* TRIGGERED BY JS */
+        .dot-navigation-rail.rail-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* FIX: FORCE FLOATING BAR TO BE HIDDEN UNTIL ACTIVE SCREEN OVERRIDE */
+        .floating-pill-nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        body:has(.content-active) .floating-pill-nav {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* ===================================================
-           LAYER 1: THE HOME CONTENT STAGE (Sits static underneath)
+            LAYER 1: THE DASHBOARD GRID STAGE
            =================================================== */
         .main-dashboard-viewport {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             overflow-y: auto; 
+            overflow-x: hidden;
+            scroll-behavior: smooth;
             box-sizing: border-box;
             opacity: 0;
             transform: scale(0.97);
@@ -38,13 +108,148 @@
             z-index: 1;
         }
 
+        body.dark-theme .main-dashboard-viewport { background-color: #0f131a; }
+        body.light-theme .main-dashboard-viewport { background-color: #ebedf2; }
+
         .main-dashboard-viewport.content-active {
             opacity: 1;
             transform: scale(1);
         }
 
+        .dashboard-grid-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 7rem 2rem 5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            box-sizing: border-box;
+        }
+
+        .dashboard-header-block {
+            text-align: left;
+            margin-bottom: 0.5rem;
+        }
+
+        .animated-title {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin: 0;
+            color: var(--text-heading);
+        }
+
+        .subtitle-main {
+            font-size: 1.15rem;
+            margin: 0.4rem 0 0;
+            font-weight: 600;
+        }
+        body.dark-theme .subtitle-main { color: #a8dedb; }
+        body.light-theme .subtitle-main { color: #00695c; }
+
+        /* DYNAMIC WORKSPACE CARDS */
+        .dashboard-card {
+            border-radius: 20px;   
+            padding: 2rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            box-sizing: border-box;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, background-color 0.3s ease;
+            
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--card-border) !important;
+            box-shadow: var(--card-shadow) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-hover-border) !important;
+            box-shadow: var(--card-hover-shadow) !important;
+        }
+
+        .dashboard-card.layout-swapped {
+            flex-direction: row-reverse;
+        }
+
+        .card-text-wrapper {
+            flex: 6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-text-wrapper h2 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin: 0 0 0.8rem 0;
+            color: var(--text-heading) !important;
+        }
+
+        .card-text-wrapper p {
+            margin: 0 0 1rem 0;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-body) !important;
+        }
+
+        .card-text-wrapper p:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-image-wrapper {
+            flex: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .portfolio-display-image {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .custom-dashboard-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        .custom-dashboard-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.4;
+            font-weight: 500;
+            color: var(--text-body) !important;
+        }
+
+        .custom-dashboard-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0.2rem;
+            top: 0;
+            font-size: 1.3rem;
+            line-height: 1.4;
+            color: var(--bullet-color) !important;
+        }
+
         /* ===================================================
-           LAYER 2: THE SPLASH ENTRANCE (Absolute Overlay)
+            LAYER 2: THE SPLASH ENTRANCE
            =================================================== */
         .landing-viewport-canvas {
             position: absolute;
@@ -57,12 +262,10 @@
             align-items: center;
             z-index: 999;
             overflow: hidden;
-            transition: clip-path 1.2s cubic-bezier(0.76, 0, 0.24, 1),
-                        opacity 1.0s ease;
+            transition: clip-path 1.2s cubic-bezier(0.76, 0, 0.24, 1), opacity 1.0s ease;
             clip-path: inset(0 0 0 0);
         }
 
-        /* DECOUPLED HIGH-PERFORMANCE BACKGROUND ENGINE */
         .bg-parallax-layer {
             position: absolute;
             top: -10%;
@@ -84,7 +287,6 @@
             opacity: 0;
         }
 
-        /* EXPANDED CENTRAL LAYOUT CARD - DYNAMIC HUGGING WORKFLOW */
         .hero-gate-card {
             background: rgba(0, 0, 0, 0.25) !important;
             backdrop-filter: var(--blur-intensity, blur(30px) saturate(170%)) !important;
@@ -93,16 +295,13 @@
             border-radius: var(--radius-standard, 28px) !important;
             box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5) !important;
             padding: 4.5rem; 
-            
             width: max-content !important;
             max-width: 90%; 
             box-sizing: border-box;
-            
             display: grid;
             grid-template-columns: auto auto; 
             align-items: center;
             gap: 5rem;
-            
             opacity: 0;
             animation: cardJumpToLife 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             transition: transform 0.8s ease, opacity 0.8s ease, width 0.3s ease;
@@ -113,20 +312,6 @@
             opacity: 0;
         }
 
-        /* UNCONTAINED COMPONENT IMAGE */
-        .raw-profile-asset {
-            display: block;
-            width: clamp(180px, 20vw, 290px); 
-            height: auto;
-            object-fit: contain;
-            flex-shrink: 0;
-            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.55)) 
-                    drop-shadow(0 30px 60px rgba(0, 0, 0, 0.3));
-            opacity: 0;
-            animation: logoFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-        }
-
-        /* RIGHT COLUMN: CONTENT WRAPPER */
         .card-body-content {
             display: flex;
             flex-direction: column;
@@ -144,34 +329,28 @@
             box-sizing: border-box;
         }
 
-        /* HURRICANE HANDWRITTEN TITLE - HIGH CONTRAST & SLOW MOTION */
+        /* FIX: SANITIZED FALLBACK FONTS FROM CURSIVE TO SANS-SERIF */
         .brand-header-row h1 {
             font-size: clamp(2.5rem, 6vw, 7.5rem) !important; 
             margin: 0;
             white-space: nowrap;
-            font-family: 'Hurricane', cursive, serif;
+            font-family: 'Google Sans Flex', system-ui, -apple-system, sans-serif;
             display: inline-block; 
-            
             line-height: 1.4 !important;
             padding-bottom: 1.5rem !important;
             padding-right: 2rem !important;
-            
             -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
             background: linear-gradient(to right, #a8dedb 0%, #ffffff 30%, #b4c6ef 70%, #a8dedb 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-
-            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.4)) 
-                    drop-shadow(0 0 35px rgba(168, 222, 219, 0.45));
-            
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 35px rgba(168, 222, 219, 0.45));
             animation: 
                 drawTextIn 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
                 vibrantWave 4.5s linear infinite 4.5s;
         }
 
-        /* HIGH-CONTRAST GLOWING SUBTEXT HEADER */
         .card-body-content p {
             font-size: clamp(1.25rem, 1.8vw, 1.65rem) !important; 
             margin: 0;
@@ -196,7 +375,6 @@
             animation: elementFadeUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
         }
 
-        /* VIBRANT HIGH-CONTRAST PASTEL MINT GATE BUTTON */
         .btn-enter-gate {
             display: inline-flex;
             align-items: center;
@@ -209,13 +387,8 @@
             border-radius: var(--radius-interactive, 999px) !important;
             text-decoration: none;
             border: 1px solid rgba(168, 222, 219, 0.6) !important; 
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.4),
-                0 0 20px rgba(168, 222, 219, 0.25);
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
-                        box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
-                        background 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                        border-color 0.25s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(168, 222, 219, 0.25);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
             cursor: pointer;
         }
 
@@ -240,18 +413,12 @@
             transform: translateY(-4px) scale(1.02);
             background: linear-gradient(135deg, rgba(170, 207, 100, 0.4) 0%, rgba(182, 77, 77, 0.25) 100%) !important;
             border-color: rgba(168, 222, 219, 0.9) !important;
-            box-shadow:
-                0 15px 15px rgba(0, 0, 0, 0.5),
-                0 0 15px rgba(168, 222, 219, 0.5);
+            box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5), 0 0 15px rgba(168, 222, 219, 0.5);
         }
 
-        .btn-enter-gate:hover svg {
-            transform: translateX(6px);
-        }
+        .btn-enter-gate:hover svg { transform: translateX(6px); }
 
-        /* ===================================================
-           KEYFRAMES & ENGINE CORE
-           =================================================== */
+        /* KEYFRAMES */
         @keyframes drawTextIn {
             0% { clip-path: inset(0 120% 0 0); opacity: 0; }
             5% { opacity: 1; }
@@ -269,10 +436,6 @@
             0% { background-position: 0% center; }
             100% { background-position: 200% center; }
         }
-        @keyframes logoFadeIn {
-            0% { opacity: 0; transform: scale(0.92); }
-            100% { opacity: 1; transform: scale(1); }
-        }
         @keyframes elementFadeUp {
             0% { opacity: 0; transform: translateY(15px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -285,76 +448,90 @@
                 gap: 3rem; 
                 width: 90% !important;
             }
-            .raw-profile-asset {
-                margin: 0 auto;
-                width: 200px;
-            }
             .card-body-content, .brand-header-row { 
                 align-items: center; 
                 text-align: center; 
             }
             .card-body-content p { text-align: center; }
             .brand-header-row h1 { white-space: normal; } 
+            .dashboard-card, .dashboard-card.layout-swapped {
+                flex-direction: column !important;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+            .custom-dashboard-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body class="dark-theme"> <div class="main-dashboard-viewport" id="contentStage">
-        
-        <nav class="floating-pill-nav">
-            <div class="nav-title">E-Portfolio</div>
-            <div class="nav-actions-cluster">
-                <button class="theme-toggle-button" id="themeToggle" aria-label="Toggle Theme">🌓</button>
-                <button class="menu-trigger-btn" onclick="toggleMenu(true)" aria-label="Open Menu">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-        </nav>
+<body class="dark-theme">
 
-        <header>
-            <div class="title-container animated-element entry-bounce">
-                <h1 class="animated-title">[Name]</h1>
-                <p class="subtitle-main">Cybersecurity Candidate | Economics & Threat Infrastructure Analyst</p>
-            </div>
-        </header>
+    <div class="dot-navigation-rail" id="dotNavRail">
+        <button class="nav-dot active" data-target="section1" data-label="Education & Professional Experience" aria-label="Go to Education & Professional Experience"></button>
+        <button class="nav-dot" data-target="section2" data-label="Quick Facts" aria-label="Go to Quick Facts"></button>
+        <button class="nav-dot" data-target="section3" data-label="KPMG Career Objectives" aria-label="Go to KPMG Value Statement"></button>
+    </div>
 
-        <main class="content-container">
-            <section class="surface-panel interactive text-content">
-                <h2>Target Role: Cybersecurity Infrastructure Analyst</h2>
-                <p>Welcome to my professional e-portfolio. This site houses my core competencies, professional evaluations, and self-regulatory developmental milestones engineered during my academic tenure at [University Name].</p>
-                
-                <p><strong>The Capstone Intersect:</strong> My senior Capstone project directly addressed <strong>UN SDG 9 (Industry, Innovation, and Infrastructure)</strong>. By blending macroeconomic modeling with threat intelligence architectures, I evaluated the compounding economic fallout of zero-day exploits on supply chain ecosystems.</p>
-                
-                <p>This technical portfolio showcases how I utilize cross-functional frameworks, analytical agility, and a strong engineering mindset to safeguard enterprise assets against systemic vulnerabilities.</p>
+    <!-- The JS layout rewrite targets the empty pill element below automatically -->
+    <nav class="floating-pill-nav"></nav>
+
+    <div class="main-dashboard-viewport" id="contentStage">
+        <div class="dashboard-grid-container">
+
+            <header class="dashboard-header-block">
+                <h1 class="animated-title">Edwin He</h1>
+                <p class="subtitle-main">Bachelor of IT and Commerce</p>
+            </header>
+
+            <section class="dashboard-card interactive" id="section1">
+                <div class="card-text-wrapper">
+                    <h2>Education & Professional Experience</h2>
+                    <p>I am finishing my degree in Bachelor of information Technology and Commerce majoring in Cyber Security and Economics respectively. I currently work as a Junior Cyber Security Analyst and System Administrator at a small company.</p>
+                </div>
+                <div class="card-image-wrapper">
+                    <img src="./images/maq.png" alt="Macquarie University Brand Graphic Asset" class="portfolio-display-image">
+                </div>
             </section>
 
-            <aside class="image-content glass-panel interactive animated-element animate-ready">
-                <h3>Core Competencies</h3>
-                <div class="image-placeholder">
-                    <ul>
-                        <li>Risk Management Frameworks</li>
-                        <li>Macroeconomic Risk Modeling</li>
-                        <li>UN SDG 9 Compliance Mapping</li>
-                        <li>Cross-functional Team Synergy</li>
+            <section class="dashboard-card interactive layout-swapped" id="section2">
+                <div class="card-text-wrapper">
+                    <h2>Quick Facts</h2>
+                    <ul class="custom-dashboard-list">
+                        <li>Continuous experience based learning</li>
+                        <li>Hand's on attitude and experiences</li>
+                        <li>Sense of curiosity ready for new opportunities and challenges</li>
+                        <li>Improvement through feedback</li>
+                        <li>Attention to Detail</li>
+                        <li>Quick learner</li>
                     </ul>
                 </div>
-            </aside>
-        </main>
+                <div class="card-image-wrapper">
+                    <img src="./images/skills.avif" alt="Technical Competencies Framework Horizon Illustration" class="portfolio-display-image">
+                </div>
+            </section>
 
+            <section class="dashboard-card interactive" id="section3">
+                <div class="card-text-wrapper">
+                    <h2>KPMG Value Statement</h2>
+                    <p>I see KPMG as an outstanding opportunity to apply my multidisciplinary background and contribute meaningful value to organisations. Studying Commerce alongside Information Technology has given me a strong understanding of both how businesses operate and how technology can drive strategic outcomes. My curiosity for emerging technologies, combined with my technical knowledge and practical IT experience, motivates me to find innovative ways to help organisations work smarter, move faster, and solve complex challenges.</p>
+                </div>
+                <div class="card-image-wrapper">
+                    <img src="./images/kpmg.jpg" alt="Corporate Strategy Values Architecture" class="portfolio-display-image">
+                </div>
+            </section>
+
+        </div>
     </div>
 
     <div class="landing-viewport-canvas" id="entranceOverlay">
         <div class="bg-parallax-layer" id="parallaxBg"></div>
         <main class="hero-gate-card">
-            <img src="./images/logo.jpg" alt="Portfolio Visual Asset" class="raw-profile-asset">
             <div class="card-body-content">
                 <div class="brand-header-row">
-                    <h1>[name]'s E-Portfolio</h1>
+                    <h1>Edwin's E-Portfolio</h1>
                 </div>
-                <p>Cybersecurity & Economic Infrastructure Frameworks</p>
+                <p>KPMG Job Application</p>
                 <div class="gate-action-container">
                     <button class="btn-enter-gate" onclick="triggerSpaReveal()">
                         <span>Enter Site</span>
@@ -368,25 +545,8 @@
         </main>
     </div>
 
-    <div class="fullscreen-menu-overlay" id="menuOverlay">
-        <button class="menu-close-btn" onclick="toggleMenu(false)" aria-label="Close Menu">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
-        <nav class="fullscreen-nav-links">
-            <a href="index.html" class="rolling-link"><span class="link-text" data-text="Home">Home</span></a>
-            <a href="page1.html" class="rolling-link"><span class="link-text" data-text="Page 1">Page 1</span></a>
-            <a href="page2.html" class="rolling-link"><span class="link-text" data-text="Page 2">Page 2</span></a>
-            <a href="page3.html" class="rolling-link"><span class="link-text" data-text="Page 3">Page 3</span></a>
-            <a href="page4.html" class="rolling-link"><span class="link-text" data-text="Page 4">Page 4</span></a>
-        </nav>
-    </div>
-
     <script src="script.js"></script>
     <script>
-        // --- ADDITION: IMMEDIATE ENTRANCE GATE CHECK ---
         document.addEventListener('DOMContentLoaded', () => {
             if (new URLSearchParams(window.location.search).get('entered') === 'true') {
                 const overlay = document.getElementById('entranceOverlay');
@@ -396,25 +556,22 @@
                     dashboard.style.transition = 'none';
                     overlay.classList.add('peeled-hidden');
                     dashboard.classList.add('content-active');
+                    showDotNavigation();
                 }
             }
         });
 
-        // --- HIGH PERFORMANCE LERP PARALLAX ENGINE ---
         const bg = document.getElementById('parallaxBg');
         const overlay = document.getElementById('entranceOverlay');
+        const viewport = document.getElementById('contentStage');
+        const dots = document.querySelectorAll('.nav-dot');
+        const dotRail = document.getElementById('dotNavRail');
 
-        let targetX = 0;
-        let targetY = 0;
-        let currentX = 0;
-        let currentY = 0;
-
-        const intensity = 0.05; 
-        const easeFactor = 0.02; 
+        let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+        const intensity = 0.05, easeFactor = 0.02; 
 
         document.addEventListener('mousemove', (e) => {
             if (!overlay || overlay.classList.contains('peeled-hidden')) return;
-            
             targetX = (window.innerWidth / 2 - e.pageX) * intensity;
             targetY = (window.innerHeight / 2 - e.pageY) * intensity;
         });
@@ -423,60 +580,57 @@
             if (overlay && !overlay.classList.contains('peeled-hidden')) {
                 currentX += (targetX - currentX) * easeFactor;
                 currentY += (targetY - currentY) * easeFactor;
-
                 bg.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
                 requestAnimationFrame(updateParallaxLoop);
             }
         }
-
         requestAnimationFrame(updateParallaxLoop);
 
         function triggerSpaReveal() {
             const dashboard = document.getElementById('contentStage');
             overlay.classList.add('peeled-hidden');
             dashboard.classList.add('content-active');
+            showDotNavigation();
         }
 
-        // Appearance Theme Switching Controller Interface Engine
-        const themeBtn = document.getElementById('themeToggle');
-        if (themeBtn) {
-            themeBtn.addEventListener('click', () => {
-                document.body.classList.toggle('dark-theme');
+        function showDotNavigation() {
+            if(dotRail) dotRail.classList.add('rail-visible');
+        }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const targetId = dot.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+                if (targetElement && viewport) {
+                    viewport.scrollTo({
+                        top: targetElement.offsetTop - 110, 
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        if (viewport) {
+            viewport.addEventListener('scroll', () => {
+                let currentSectionId = "section1";
+                const sections = document.querySelectorAll('.dashboard-card');
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (viewport.scrollTop >= sectionTop - 200) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                dots.forEach(dot => {
+                    if (dot.getAttribute('data-target') === currentSectionId) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
             });
         }
-
-        // Fullscreen Cascading Overlay Menu Controller
-        function toggleMenu(open) {
-            const menuOverlay = document.getElementById('menuOverlay');
-            if (!menuOverlay) return;
-            
-            if (open) {
-                menuOverlay.classList.add('menu-active');
-                
-                const links = menuOverlay.querySelectorAll('.rolling-link');
-                links.forEach((link, index) => {
-                    link.style.opacity = '0';
-                    link.style.transform = 'translateY(40px)';
-                    link.style.transition = 'none';
-                    
-                    setTimeout(() => {
-                        link.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
-                        link.style.opacity = '1';
-                        link.style.transform = 'translateY(0)';
-                    }, 200 + (index * 120)); 
-                });
-            } else {
-                menuOverlay.classList.remove('menu-active');
-                
-                const links = menuOverlay.querySelectorAll('.rolling-link');
-                links.forEach(link => {
-                    link.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    link.style.opacity = '0';
-                    link.style.transform = 'translateY(40px)';
-                });
-            }
-        }
     </script>
-
 </body>
 </html>
