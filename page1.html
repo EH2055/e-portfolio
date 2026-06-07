@@ -3,34 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self-Reflection | E-Portfolio</title>
+    <title>E-Portfolio | Case Study</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Keep page-specific baseline clean and allow theme overrides */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        /* Direct visibility initialization for sub-pages bypassing the gate splash */
+        .sub-viewport-stage {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto; 
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            padding-bottom: 50px;
+        }
+
+        /* Inline helpers to ensure layout spacing and cluster alignment match dashboard behavior */
+        .section-row {
+            margin-bottom: 2rem;
+        }
+
+        /* Full-width stretch container for the quote with no background box */
+        .full-width-quote-container {
+            width: 100%;
+            max-width: 1200px; /* Matches default dashboard content width limits */
+            margin: 0 auto 3rem auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        .quote-text {
+            font-size: 1.35rem; 
+            line-height: 1.6; 
+            font-style: italic; 
+            border-left: 4px solid #4a90e2; 
+            padding-left: 20px;
+            margin: 0;
+            /* Leverages text-color variable if present, falls back to a contrast-safe grey */
+            color: var(--text-main, var(--text-color, currentColor)); 
+        }
+
+        /* Ensure texts inside the structural panels follow dashboard contrast rules */
+        .text-content p, .text-content ul {
+            color: var(--text-muted, currentColor);
+        }
+        
+        .text-content h2 {
+            color: var(--text-heading, currentColor);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            align-content: center;
+        }
+
+        .cluster-img {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            background: transparent; /* Transparent setup preserved */
+            border: none;             
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .quote-link {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .quote-link:hover {
+            text-decoration: underline;
+            color: #6ba4e8;
+        }
+    </style>
 </head>
 <body>
 
-    <nav id="main-nav" aria-label="Main Navigation"></nav>
+    <div class="sub-viewport-stage" id="contentStage">
+        
+        <header>
+            <div class="title-container sub-page-animate delay-1">
+                <h1 class="animated-title">Case Study: Experiences and Skills</h1>
+                <p class="subtitle-main">My work experiences and skills I've gathered.</p>
+            </div>
+        </header>
 
-    <main class="article-container">
-        <article class="glass-panel">
-            <header class="article-header">
-                <span class="subtitle">Competency Domain 1</span>
-                <h1>Self-Reflection</h1>
-                <div class="badge-container">
-                    <span class="badge">UN SDG 9 Integration</span>
-                    <span class="badge">Team Synergy</span>
-                    <span class="badge">Analytical Growth</span>
-                </div>
-            </header>
-            
-            <section class="article-body">
-                <p>During the execution of our Capstone Project, which focused on the economic implications of infrastructural security under UN SDG 9, I operated both as an individual quantitative researcher and as a collaborative technical liaison within our team. This dual responsibility required a deep exploration of how technical learning translates into enterprise protection.</p>
-                
-                <p>My personal growth materialized in the synthesis of macro-economics and security architectures. Initially, I approached systemic risks through a purely financial lens. However, through recursive sprint iterations with my team, I evolved an analytical framework that directly calculates how software vulnerabilities cascade into macroeconomic supply chain blockages.</p>
-                
-                <p>Authentic learning occurred when our group faced major data anomalies regarding infrastructure downtime. Rather than relying on traditional recovery estimates, I innovated a custom financial forecasting model that factored in malicious actor behaviors, demonstrating creative problem-solving and deep technical competence under pressure.</p>
+        <div class="full-width-quote-container sub-page-animate delay-1">
+            <p class="quote-text">
+                <a href="https://au.linkedin.com/in/stephen-elias-b82379b4" target="_blank" class="quote-link">Economist and Director at Treasury</a> of the RBA said, "early communications are always important"
+            </p>
+        </div>
+
+        <main class="content-container section-row">
+            <aside class="image-content glass-panel interactive sub-page-animate delay-2">
+                <img src="images/plan.png" alt="Planning Phase Diagram" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </aside>
+
+            <section class="surface-panel interactive text-content sub-page-animate delay-2">
+                <h2>Proactive Execution</h2>
+                <p>Based on what the Economist and Director at Treasury of RBA said, we started planning before doing which was also a skill I gained from my time as a Shift Manager.</p>
             </section>
-        </article>
-    </main>
+        </main>
+
+        <main class="content-container section-row">
+            <section class="surface-panel interactive text-content sub-page-animate delay-3">
+                <h2>Transferrable Skills</h2>
+                <p>The key transferrable technical skills learnt from my current job are:</p>
+                <ul style="line-height: 1.8; padding-left: 20px;">
+                    <li><strong>Microsoft Office Suite</strong> (Entra ID and Active Directory)</li>
+                    <li><strong>AWS</strong> Cloud Infrastructure</li>
+                    <li><strong>Figma</strong> UI/UX Asset Delivery</li>
+                </ul>
+            </section>
+
+            <aside class="image-content glass-panel interactive sub-page-animate delay-3">
+                <h3>Tech Stack Cluster</h3>
+                <div class="skills-grid">
+                    <img src="images/aws.png" alt="AWS" class="cluster-img">
+                    <img src="images/entra.jpg" alt="Entra ID" class="cluster-img">
+                    <img src="images/figma.jpg" alt="Figma" class="cluster-img">
+                </div>
+            </aside>
+        </main>
+
+    </div>
 
     <script src="script.js"></script>
 </body>
